@@ -2,6 +2,7 @@
 // Run with: node test-realty-api.js
 
 const https = require('https');
+const path = require('path');
 
 const data = JSON.stringify({
   limit: 10,
@@ -14,12 +15,14 @@ const data = JSON.stringify({
   }
 });
 
+const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY || process.env.REALTY_API_KEY || 'YOUR_RAPIDAPI_KEY';
+
 const options = {
   hostname: 'realty-in-us.p.rapidapi.com',
   path: '/properties/v3/list',
   method: 'POST',
   headers: {
-    'x-rapidapi-key': 'cdff686e3dmsh63e57fae45f21f1p113364jsn85fbadde0225',
+    'x-rapidapi-key': RAPIDAPI_KEY,
     'x-rapidapi-host': 'realty-in-us.p.rapidapi.com',
     'Content-Type': 'application/json',
     'Content-Length': data.length
@@ -30,6 +33,10 @@ console.log('===================================================');
 console.log('Testing Realty In US API Connection');
 console.log('===================================================\n');
 console.log('Searching for properties in Boston (02215)...\n');
+
+if (RAPIDAPI_KEY === 'YOUR_RAPIDAPI_KEY') {
+  console.warn('Warning: RAPIDAPI_KEY environment variable is not set. Set RAPIDAPI_KEY before running this script.');
+}
 
 const req = https.request(options, (res) => {
   let responseData = '';
@@ -67,9 +74,10 @@ const req = https.request(options, (res) => {
         }
         
         // Save sample response
-        const fs = require('fs');
-        fs.writeFileSync('realty-api-sample-response.json', JSON.stringify(parsed, null, 2));
-        console.log('\n📄 Full response saved to: realty-api-sample-response.json');
+  const fs = require('fs');
+  const outputPath = path.join(__dirname, '..', 'docs', 'realty-api-sample-response.json');
+  fs.writeFileSync(outputPath, JSON.stringify(parsed, null, 2));
+  console.log(`\n📄 Full response saved to: ${outputPath}`);
         
       } catch (err) {
         console.error('❌ Error parsing response:', err.message);

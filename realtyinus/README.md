@@ -162,7 +162,7 @@ set RAPIDAPI_KEY=your-key-here
 
 **Option 1: Using startup script**
 ```bash
-start-realtyinus.bat
+scripts/start-realtyinus.bat
 ```
 
 **Option 2: Maven wrapper**
@@ -181,7 +181,7 @@ mvn spring-boot:run
 
 Run test script:
 ```bash
-test-realtyinus-endpoints.bat
+scripts/test-realtyinus-endpoints.bat
 ```
 
 Or test manually:
@@ -281,8 +281,8 @@ This is expected. Users must provide these values.
 
 ## Next Steps
 
-1. **Start the service**: Run `start-realtyinus.bat`
-2. **Test endpoints**: Run `test-realtyinus-endpoints.bat`
+1. **Start the service**: Run `scripts/start-realtyinus.bat`
+2. **Test endpoints**: Run `scripts/test-realtyinus-endpoints.bat`
 3. **Integrate with frontend**: Update React components to call these APIs
 4. **Add caching**: Implement Redis/in-memory cache for frequently accessed properties
 5. **Error handling**: Add retry logic and better error messages

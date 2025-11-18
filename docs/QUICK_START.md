@@ -49,8 +49,8 @@ realtyinus/
 └── pom.xml                                   ✅ Already exists
 
 Root directory/
-├── start-realtyinus.bat                      ✅ Startup script
-└── test-realtyinus-endpoints.bat             ✅ Test script
+├── scripts\start-realtyinus.bat              ✅ Startup script
+└── scripts\test-realtyinus-endpoints.bat     ✅ Test script
 ```
 
 ## How to Run
@@ -77,7 +77,7 @@ Root directory/
 **Option 1: Use startup script**
 ```bash
 cd C:\Users\14215\Desktop\Real-Time-Real-Estate-Investment-Analysis--Web-App\Real-Time-Real-Estate-Investment-Analysis--Web-App
-start-realtyinus.bat
+./scripts/start-realtyinus.bat
 ```
 
 **Option 2: Manual start**
@@ -105,7 +105,7 @@ Started RealtyApplication in X.XXX seconds
 
 ### Option 1: Use test script
 ```bash
-test-realtyinus-endpoints.bat
+./scripts/test-realtyinus-endpoints.bat
 ```
 
 ### Option 2: Manual testing
@@ -270,8 +270,8 @@ cd realtyinus
 
 ## Next Steps
 
-1. **Start service**: Run `start-realtyinus.bat`
-2. **Test APIs**: Run `test-realtyinus-endpoints.bat`
+1. **Start service**: Run `scripts/start-realtyinus.bat`
+2. **Test APIs**: Run `scripts/test-realtyinus-endpoints.bat`
 3. **Update frontend**: Integrate with React app
 4. **Add features**: Implement caching, error handling
 

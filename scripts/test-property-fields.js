@@ -1,6 +1,6 @@
 const https = require('https');
 
-const API_KEY = 'cdff686e3dmsh63e57fae45f21f1p113364jsn85fbadde0225';
+const API_KEY = process.env.RAPIDAPI_KEY || process.env.REALTY_API_KEY || 'YOUR_RAPIDAPI_KEY';
 const API_HOST = 'realty-in-us.p.rapidapi.com';
 
 // Test 1: Search for properties

@@ -4,7 +4,7 @@ echo Starting RealtyInUS Spring Boot Service
 echo ===============================================
 echo.
 
-cd /d "%~dp0realtyinus"
+cd /d "%~dp0..\realtyinus"
 
 echo Checking Maven installation...
 call mvnw.cmd --version >nul 2>&1
