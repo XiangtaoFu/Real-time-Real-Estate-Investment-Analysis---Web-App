@@ -1,0 +1,87 @@
+﻿{
+    "apiData":  {
+                    "propertyId":  "9896131090",
+                    "address":  "30 Fenway Unit 5",
+                    "city":  "Boston",
+                    "state":  "MA",
+                    "zip":  "02215",
+                    "listPrice":  849000,
+                    "estimate":  1191700,
+                    "beds":  0,
+                    "baths":  1,
+                    "sqft":  1476,
+                    "yearBuilt":  1925,
+                    "propertyType":  "condos",
+                    "status":  "for_sale",
+                    "daysOnMarket":  14,
+                    "listingDate":  "2025-11-04"
+                },
+    "marketData":  {
+                       "estimatedMonthlyRent":  3900,
+                       "currentMortgageRate":  0.065,
+                       "averageHoa":  0,
+                       "propertyTaxRate":  0.011,
+                       "rentalCompsCount":  5,
+                       "compsAveragePrice":  830000,
+                       "compsMedianPrice":  825000,
+                       "suggestedOfferLow":  815000,
+                       "suggestedOfferHigh":  840000
+                   },
+    "userInput":  {
+                      "offerPrice":  849000,
+                      "downPaymentPercent":  0.20,
+                      "actualMonthlyRent":  null,
+                      "parkingIncome":  0,
+                      "storageIncome":  0,
+                      "otherIncome":  0,
+                      "actualPropertyTax":  9500,
+                      "actualInsurance":  1400,
+                      "actualHOA":  0,
+                      "utilities":  0,
+                      "maintenance":  1500,
+                      "mortgageRate":  0.065,
+                      "loanTermYears":  30,
+                      "interestOnlyYears":  0,
+                      "holdYears":  10,
+                      "expectedAppreciation":  0.04
+                  },
+    "calculatorOverrides":  {
+                                "vacancyRate":  0.05,
+                                "managementRate":  0.08,
+                                "repairsRate":  0.05,
+                                "rentGrowth":  0.03,
+                                "expenseGrowth":  0.025,
+                                "exitCostRate":  0.06
+                            },
+    "financing":  {
+                      "firstPrincipal":  679200,
+                      "firstRateAnnual":  0.065,
+                      "firstAmortYears":  30,
+                      "firstInterestOnlyYears":  0,
+                      "secondPrincipal":  0,
+                      "secondRateAnnual":  null,
+                      "secondAmortYears":  null,
+                      "otherMonthlyFinancingCosts":  0
+                  },
+    "closingCosts":  {
+                         "repairs":  0,
+                         "repairsContingency":  0,
+                         "lenderFee":  2500,
+                         "brokerFee":  0,
+                         "environmentals":  0,
+                         "inspections":  800,
+                         "appraisals":  650,
+                         "transferTax":  0,
+                         "legalClose":  1500,
+                         "otherClosingCosts":  0
+                     },
+    "useMarketRent":  true,
+    "useMarketRate":  true,
+    "includeClosingCosts":  true,
+    "assumptions":  [
+                        "Vacancy 5% reflects stabilized Boston condo occupancy.",
+                        "Appreciation 4% based on historic urban condo trend.",
+                        "Exit cost 6% ~ broker + transfer + misc.",
+                        "Property tax rate estimated at 1.1% of FMV (demo only)."
+                    ]
+}

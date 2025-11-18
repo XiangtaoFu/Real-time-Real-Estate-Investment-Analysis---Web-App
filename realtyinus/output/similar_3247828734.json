@@ -1,0 +1,52 @@
+﻿[
+    {
+        "propertyId":  "3247828734",
+        "address":  "10 Seaport Dr Apt 2311",
+        "price":  639900.0,
+        "beds":  2,
+        "baths":  2,
+        "sqft":  1159,
+        "status":  "for_sale",
+        "soldDate":  null
+    },
+    {
+        "propertyId":  "4914280728",
+        "address":  "37 Bay State Rd Unit 37",
+        "price":  669900.0,
+        "beds":  3,
+        "baths":  2,
+        "sqft":  1400,
+        "status":  "for_sale",
+        "soldDate":  null
+    },
+    {
+        "propertyId":  "4947340480",
+        "address":  "138 Quincy Shore Dr Unit 170",
+        "price":  599999.0,
+        "beds":  2,
+        "baths":  3,
+        "sqft":  1460,
+        "status":  "for_sale",
+        "soldDate":  null
+    },
+    {
+        "propertyId":  "4626643935",
+        "address":  "45 Hancock St Unit 203",
+        "price":  599999.0,
+        "beds":  3,
+        "baths":  2,
+        "sqft":  1284,
+        "status":  "for_sale",
+        "soldDate":  null
+    },
+    {
+        "propertyId":  "3532113306",
+        "address":  "166 Quincy Shore Dr Unit 108",
+        "price":  589000.0,
+        "beds":  2,
+        "baths":  3,
+        "sqft":  1505,
+        "status":  "for_sale",
+        "soldDate":  null
+    }
+]
