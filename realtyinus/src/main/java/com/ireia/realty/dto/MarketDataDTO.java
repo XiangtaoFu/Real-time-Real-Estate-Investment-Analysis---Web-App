@@ -19,6 +19,13 @@ public class MarketDataDTO {
     private Double averageHoa;
     private Double propertyTaxRate;
 
+    // Derived from similarHomes for recommendations
+    private Double compsAveragePrice;
+    private Double compsMedianPrice;
+    private Integer compsCount;
+    private Double suggestedOfferLow;
+    private Double suggestedOfferHigh;
+
     public Double getAverageSoldPrice() { return averageSoldPrice; }
     public void setAverageSoldPrice(Double averageSoldPrice) { this.averageSoldPrice = averageSoldPrice; }
     
@@ -57,4 +64,19 @@ public class MarketDataDTO {
     
     public Double getPropertyTaxRate() { return propertyTaxRate; }
     public void setPropertyTaxRate(Double propertyTaxRate) { this.propertyTaxRate = propertyTaxRate; }
+
+    public Double getCompsAveragePrice() { return compsAveragePrice; }
+    public void setCompsAveragePrice(Double compsAveragePrice) { this.compsAveragePrice = compsAveragePrice; }
+
+    public Double getCompsMedianPrice() { return compsMedianPrice; }
+    public void setCompsMedianPrice(Double compsMedianPrice) { this.compsMedianPrice = compsMedianPrice; }
+
+    public Integer getCompsCount() { return compsCount; }
+    public void setCompsCount(Integer compsCount) { this.compsCount = compsCount; }
+
+    public Double getSuggestedOfferLow() { return suggestedOfferLow; }
+    public void setSuggestedOfferLow(Double suggestedOfferLow) { this.suggestedOfferLow = suggestedOfferLow; }
+
+    public Double getSuggestedOfferHigh() { return suggestedOfferHigh; }
+    public void setSuggestedOfferHigh(Double suggestedOfferHigh) { this.suggestedOfferHigh = suggestedOfferHigh; }
 }

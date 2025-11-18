@@ -21,3 +21,23 @@ gradlew
 gradlew.bat
 build/
 
+# Maven build output
+target/
+**/target/
+
+# Node
+**/node_modules/
+
+# Logs and generated artifacts
+*.log
+service-log.txt
+service-log-live.txt
+**/service-output.txt
+realty-api-sample-response.json
+market-data-result.json
+market-data-test-result.json
+
+# Local env files
+.env
+.env.*
+

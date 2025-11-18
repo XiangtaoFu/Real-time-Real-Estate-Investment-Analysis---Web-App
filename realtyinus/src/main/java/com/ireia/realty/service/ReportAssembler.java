@@ -39,6 +39,7 @@ public class ReportAssembler {
             out.propertyInfo.address = req.apiData.address;
             out.propertyInfo.fullAddress = String.format("%s, %s, %s %s",
                     nzs(req.apiData.address), nzs(req.apiData.city), nzs(req.apiData.state), nzs(req.apiData.zip)).trim();
+            out.propertyInfo.zip = req.apiData.zip;
             out.propertyInfo.listPrice = req.apiData.listPrice;
             out.propertyInfo.fmv = req.apiData.estimate;
             out.propertyInfo.propertyType = req.apiData.propertyType;
@@ -46,6 +47,9 @@ public class ReportAssembler {
             out.propertyInfo.baths = req.apiData.baths;
             out.propertyInfo.sqft = req.apiData.sqft;
             out.propertyInfo.yearBuilt = req.apiData.yearBuilt;
+            out.propertyInfo.status = req.apiData.status;
+            out.propertyInfo.daysOnMarket = req.apiData.daysOnMarket;
+            out.propertyInfo.listingDate = req.apiData.listingDate;
         }
 
         // Offer price from user input or fallback to listPrice
@@ -62,6 +66,15 @@ public class ReportAssembler {
                 req.userInput != null && req.userInput.offerPrice != null ? "high" : "medium", "User-confirmed or list price");
         out.propertyInfo.fieldSources = sources;
 
+        // Choose monthly rent used (market vs user) for echo on propertyInfo
+        Double chosenMonthlyRent = null;
+        if (req.useMarketRent != null && req.useMarketRent && req.marketData != null) {
+            chosenMonthlyRent = req.marketData.estimatedMonthlyRent;
+        } else if (req.userInput != null) {
+            chosenMonthlyRent = req.userInput.actualMonthlyRent;
+        }
+        out.propertyInfo.monthlyRent = chosenMonthlyRent;
+
         // Analysis mapping from calculator result
         out.analysis = new InvestmentReportResponseDTO.InvestmentAnalysis();
         out.analysis.yearOne = toYearOne(calc);
@@ -70,6 +83,9 @@ public class ReportAssembler {
         out.analysis.irr = calc != null ? calc.irr : null;
         out.analysis.warnings = new ArrayList<>();
         out.analysis.assumptions = new ArrayList<>();
+
+        // Echo the exact request used by the calculator
+        out.cashflowRequest = cf;
 
         // Data quality
         out.dataQuality = completenessAnalyzer.analyzeCompleteness(req, calc);
@@ -154,8 +170,20 @@ public class ReportAssembler {
         y.operatingExpenses = s.totalExpensesY1; y.netOperatingIncome = s.noiY1;
         y.annualDebtService = s.annualDebtServiceY1; y.monthlyPayment = s.monthlyProfitY1 != null ? s.monthlyProfitY1 : null;
         y.dscr = s.dscrY1; y.monthlyCashflow = s.monthlyProfitY1; y.annualCashflow = s.monthlyProfitY1 != null ? s.monthlyProfitY1 * 12 : null;
-        y.capRate = s.capRatePPY1; y.cashOnCashReturn = s.cashOnCashY1; y.grm = s.grmY1; y.expenseRatio = null;
+        y.capRate = s.capRatePPY1; y.cashOnCashReturn = s.cashOnCashY1; y.grm = s.grmY1;
+        // Expense to income ratio
+        if (s.totalIncomeY1 != null && s.totalIncomeY1 > 0) {
+            double ratio = s.totalExpensesY1 != null ? s.totalExpensesY1 / s.totalIncomeY1 : 0.0;
+            y.expenseRatio = ratio; y.expenseToIncomeRatio = ratio;
+        }
         y.loanToValue = s.ltvFMV; y.equityROI = s.equityROIY1; y.appreciationROI = s.appreciationROIY1; y.totalROI = s.totalROIY1;
+
+        // Equity multiple = (Σ yearly cashflows + net sale) / cash to close
+        if (calc.projection != null && !calc.projection.isEmpty() && s.cashToClose != null && s.cashToClose > 0) {
+            double sumCF = 0.0; for (CashflowResponse.YearRow r : calc.projection) sumCF += (r.cashflow != null ? r.cashflow : 0.0);
+            double netSale = calc.exitNetProceeds != null ? calc.exitNetProceeds : 0.0;
+            y.equityMultiple = (sumCF + netSale) / s.cashToClose;
+        }
         return y;
     }
 
@@ -164,9 +192,11 @@ public class ReportAssembler {
         if (calc == null || calc.projection == null) return res;
         for (CashflowResponse.YearRow r : calc.projection) {
             InvestmentReportResponseDTO.YearlyProjection y = new InvestmentReportResponseDTO.YearlyProjection();
-            y.year = r.year; y.totalIncome = r.totalIncome; y.operatingExpenses = r.totalExpenses;
-            y.noi = r.noi; y.debtService = r.annualDebtService; y.cashflow = r.cashflow;
+            y.year = r.year; y.totalIncome = r.totalIncome; y.vacancyLoss = r.vacancyLoss;
+            y.management = r.management; y.repairsRateBased = r.repairsRateBased;
+            y.operatingExpenses = r.totalExpenses; y.noi = r.noi; y.debtService = r.annualDebtService; y.cashflow = r.cashflow;
             y.principalPaydown = r.principalPaiddown; y.loanBalance = r.loanBalance; y.propertyValue = r.propertyValue;
+            y.endingBalanceFirst = r.endingBalanceFirst; y.endingBalanceSecond = r.endingBalanceSecond;
             y.equity = (r.propertyValue != null && r.loanBalance != null) ? (r.propertyValue - r.loanBalance) : null;
             res.add(y);
         }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/report")
+@CrossOrigin(origins = "*")
 public class ReportController {
 
     private final ReportAssembler reportAssembler;

@@ -1,0 +1,227 @@
+﻿{
+    "investmentAnalysis":  {
+                               "summary":  {
+                                               "rpp":  849000.0,
+                                               "cashToClose":  169800.0,
+                                               "totalIncomeY1":  48000.0,
+                                               "vacancyLossY1":  -2400.0,
+                                               "egiY1":  45600.0,
+                                               "totalExpensesY1":  17085.0,
+                                               "noiY1":  28515.0,
+                                               "annualDebtServiceY1":  51516.072186770645,
+                                               "dscrY1":  0.5535165782169756,
+                                               "capRatePPY1":  0.03358657243816254,
+                                               "capRateFMVY1":  0.03306086956521739,
+                                               "grmY1":  17.6875,
+                                               "avgRentPerUnitY1":  4000.0,
+                                               "monthlyProfitY1":  -1916.7560155642204,
+                                               "cashflowPerUnitPerMonthY1":  -1916.7560155642204,
+                                               "ltvFMV":  0.7874782608695652,
+                                               "ltppPP":  0.8,
+                                               "cashOnCashY1":  -0.13545978908581063,
+                                               "equityROIY1":  0.043392651276623354,
+                                               "appreciationROIY1":  0.0,
+                                               "totalROIY1":  -0.09206713780918728,
+                                               "forcedAppreciationROIY1":  0.07950530035335689
+                                           },
+                               "projection":  [
+                                                  {
+                                                      "year":  1,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  7368.072186770645,
+                                                      "loanBalance":  671831.9278132294,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  2,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  7846.996878910737,
+                                                      "loanBalance":  663984.9309343187,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  3,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  8357.051676039926,
+                                                      "loanBalance":  655627.8792582788,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  4,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  8900.260034982522,
+                                                      "loanBalance":  646727.6192232962,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  5,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  9478.776937256393,
+                                                      "loanBalance":  637248.8422860398,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  6,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  10094.897438178057,
+                                                      "loanBalance":  627153.9448478618,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  7,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  10751.065771659625,
+                                                      "loanBalance":  616402.8790762022,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  8,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  11449.8850468175,
+                                                      "loanBalance":  604952.9940293847,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  9,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  12194.127574860642,
+                                                      "loanBalance":  592758.866454524,
+                                                      "propertyValue":  862500.0
+                                                  },
+                                                  {
+                                                      "year":  10,
+                                                      "totalIncome":  48000.0,
+                                                      "vacancyLoss":  -2400.0,
+                                                      "egi":  45600.0,
+                                                      "totalExpenses":  17085.0,
+                                                      "noi":  28515.0,
+                                                      "annualDebtService":  51516.072186770645,
+                                                      "cashflow":  -23001.072186770645,
+                                                      "principalPaiddown":  12986.745867226586,
+                                                      "loanBalance":  579772.1205872974,
+                                                      "propertyValue":  862500.0
+                                                  }
+                                              ],
+                               "exitProceeds":  862500.0,
+                               "exitNetProceeds":  282727.87941270263,
+                               "irr":  -0.05190762961868032
+                           },
+    "timestamp":  "2025-11-17 14:57:29",
+    "detailedData":  {
+
+                     },
+    "dataQuality":  {
+                        "userRequired":  [
+                                             "grossRentsAnnual",
+                                             "firstRateAnnual"
+                                         ],
+                        "apiProvided":  [
+                                            "address",
+                                            "city",
+                                            "state",
+                                            "listPrice",
+                                            "estimate",
+                                            "propertyType"
+                                        ],
+                        "industryStandard":  [
+                                                 "vacancyRate",
+                                                 "managementRate",
+                                                 "repairsRate"
+                                             ],
+                        "estimated":  [
+                                          "insurance",
+                                          "propertyTaxes"
+                                      ],
+                        "calculated":  [
+                                           "firstPrincipal"
+                                       ]
+                    },
+    "calculatorInput":  {
+                            "vacancyRate":  0.05,
+                            "insurance":  2547,
+                            "firstPrincipal":  679200,
+                            "propertyTaxes":  8490,
+                            "fmv":  862500,
+                            "state":  "Massachusetts",
+                            "managementRate":  0.08,
+                            "offerPrice":  849000,
+                            "numberOfUnits":  1,
+                            "repairsRate":  0.05,
+                            "zip":  "02215",
+                            "firstAmortYears":  30,
+                            "city":  "Boston",
+                            "grossRentsAnnual":  48000,
+                            "firstRateAnnual":  0.065,
+                            "address":  "30 Fenway Unit 5"
+                        },
+    "propertyInfo":  {
+                         "propertyId":  "3325825129",
+                         "address":  "30 Fenway Unit 5",
+                         "city":  "Boston",
+                         "state":  "Massachusetts",
+                         "postalCode":  "02215",
+                         "listPrice":  849000.0,
+                         "beds":  0,
+                         "baths":  1,
+                         "sqft":  1476,
+                         "propertyType":  "condos",
+                         "status":  "for_sale",
+                         "photoUrl":  "https://ap.rdcpix.com/a693dd56e9550a7585a0306358c692c4l-b1580199988s.jpg",
+                         "estimate":  862500.0,
+                         "listDate":  "2025-11-06T19:44:21.000000Z"
+                     }
+}

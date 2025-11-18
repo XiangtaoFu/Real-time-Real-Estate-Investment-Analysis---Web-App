@@ -5,12 +5,16 @@ import com.ireia.realty.dto.*;
 import com.ireia.realty.service.MarketDataEnrichmentService;
 import com.ireia.realty.service.PropertyMappingService;
 import com.ireia.realty.service.RealtyInUSApiService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/properties")
 @CrossOrigin(origins = "*")
 public class PropertyController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(PropertyController.class);
     
     private final RealtyInUSApiService apiService;
     private final PropertyMappingService mappingService;
@@ -71,26 +75,63 @@ public class PropertyController {
             @RequestParam(defaultValue = "false") Boolean includeMortgageRates) throws Exception {
         
         try {
+            logger.info("=== Investment Data Request Started ===");
+            logger.info("Property ID: " + propertyId);
+            logger.info("Include Market Data: " + includeMarketData);
+            
+            logger.info("Fetching property detail from API...");
             JsonNode detailResponse = apiService.getPropertyDetail(propertyId);
+            logger.info("Property detail fetched successfully");
+            
+            logger.info("Mapping property detail...");
             PropertyDetailDTO detail = mappingService.mapDetailResponse(detailResponse);
+            logger.info("Property detail mapped: " + detail.getAddress());
             
             if (!includeMarketData) {
+                logger.info("Skipping market data enrichment");
                 return mappingService.enrichPropertyData(detail);
             }
             
             // Use the new MarketDataEnrichmentService to fetch real-time market data
+            logger.info("Enriching with market data...");
             MarketDataDTO marketData = marketDataService.enrichWithMarketData(detail);
+            logger.info("Market data enriched successfully");
             
             // Build enriched property with real market data
+            logger.info("Building enriched response...");
             EnrichedPropertyDTO enriched = mappingService.enrichPropertyDataWithMarket(detail, marketData);
+            logger.info("=== Investment Data Request Completed ===");
             
             return enriched;
         } catch (Exception e) {
             // Log the detailed error
-            System.err.println("ERROR in getInvestmentData: " + e.getClass().getName());
-            System.err.println("Message: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("=== ERROR in getInvestmentData ===");
+            logger.error("Exception class: " + e.getClass().getName());
+            logger.error("Message: " + e.getMessage());
+            logger.error("Stack trace:", e);
             throw new RuntimeException("Failed to get investment data: " + e.getMessage(), e);
+        }
+    }
+
+    @GetMapping("/{propertyId}/similar")
+    public java.util.List<ComparablePropertyDTO> getSimilarHomes(
+            @PathVariable String propertyId,
+            @RequestParam(defaultValue = "5") Integer limit) throws Exception {
+        try {
+            logger.info("Fetching similar homes for property {} with limit {}", propertyId, limit);
+            // Use enrichment service (includes propertyId-based comps + zip fallback)
+            JsonNode detailResponse = apiService.getPropertyDetail(propertyId);
+            PropertyDetailDTO detail = mappingService.mapDetailResponse(detailResponse);
+            MarketDataDTO market = marketDataService.enrichWithMarketData(detail);
+            java.util.List<ComparablePropertyDTO> comps = market != null ? market.getSimilarHomes() : java.util.Collections.emptyList();
+            if (comps == null) return java.util.Collections.emptyList();
+            if (limit != null && limit > 0 && comps.size() > limit) {
+                return comps.subList(0, limit);
+            }
+            return comps;
+        } catch (Exception e) {
+            logger.error("Failed to fetch similar homes: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to fetch similar homes: " + e.getMessage(), e);
         }
     }
 }
