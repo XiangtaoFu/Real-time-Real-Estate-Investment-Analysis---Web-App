@@ -1,0 +1,52 @@
+{
+  "apiData": {
+    "propertyId": "9884614204",
+    "address": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "zip": "10001",
+    "listPrice": 450000,
+    "estimate": 465000,
+    "beds": 2,
+    "baths": 1,
+    "sqft": 950,
+    "yearBuilt": 1965,
+    "propertyType": "condo"
+  },
+  "marketData": {
+    "estimatedMonthlyRent": 3200,
+    "rentComparablesCount": 7,
+    "medianRentPrice": 3100,
+    "avgSoldPrice": 440000,
+    "soldComparablesCount": 6,
+    "currentMortgageRate": 0.0675,
+    "mortgageRateSource": "30-year fixed (NY)",
+    "estimatedPropertyTax": 5200,
+    "estimatedInsurance": 1200,
+    "estimatedHOA": 2400,
+    "recommendedVacancyRate": 0.05,
+    "recommendedManagementRate": 0.08,
+    "recommendedRepairsRate": 0.05
+  },
+  "userInput": {
+    "offerPrice": 445000,
+    "downPaymentPercent": 0.25,
+    "actualMonthlyRent": 3100,
+    "parkingIncome": 0,
+    "storageIncome": 0,
+    "otherIncome": 0,
+    "actualPropertyTax": 5200,
+    "actualInsurance": 1200,
+    "actualHOA": 2400,
+    "utilities": 1500,
+    "maintenance": 1000,
+    "mortgageRate": 0.065,
+    "loanTermYears": 30,
+    "interestOnlyYears": 0,
+    "holdYears": 10,
+    "expectedAppreciation": 0.04
+  },
+  "useMarketRent": false,
+  "useMarketRate": false,
+  "includeClosingCosts": false
+}
