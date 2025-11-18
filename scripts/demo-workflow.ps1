@@ -2,7 +2,13 @@
 # Usage: Right-click and Run with PowerShell, or run from PowerShell: .\scripts\demo-workflow.ps1
 
 param(
-    [string]$BaseUrl = "http://localhost:8081"
+    [string]$BaseUrl = "http://localhost:8081",
+    # Optional: provide ZIP to avoid prompt
+    [string]$Zip,
+    # Optional: provide propertyId to avoid prompt; if omitted and -NonInteractive is set, uses the first result
+    [string]$PropertyId,
+    # Optional: run without prompts; will use defaults (first listing) when possible
+    [switch]$NonInteractive
 )
 
 Write-Host ("=" * 70) -ForegroundColor Gray
@@ -17,15 +23,14 @@ try {
     Write-Host "Or pass -BaseUrl with the correct port, e.g., http://localhost:8081" -ForegroundColor Yellow
 }
 
-# 1) Ask ZIP code
-$zip = Read-Host "Enter ZIP code (e.g., 02171 or 02215)"
-if (-not $zip) {
-    Write-Host "No ZIP entered. Exit." -ForegroundColor Red
-    exit 1
+# 1) Ask ZIP code (or use provided)
+if (-not $Zip) {
+    $Zip = if ($NonInteractive) { "02171" } else { Read-Host "Enter ZIP code (e.g., 02171 or 02215)" }
 }
+if (-not $Zip) { Write-Host "No ZIP entered. Exit." -ForegroundColor Red; exit 1 }
 
 # 2) Search properties
-$searchUrl = "$BaseUrl/api/properties/search?postalCode=$zip&status=for_sale&limit=5"
+$searchUrl = "$BaseUrl/api/properties/search?postalCode=$Zip&status=for_sale&limit=5"
 Write-Host "\n[1] Search properties: $searchUrl" -ForegroundColor Cyan
 
 try {
@@ -46,16 +51,22 @@ $search.properties |
   Format-Table -AutoSize
 
 $defaultPropId = ($search.properties | Select-Object -First 1).propertyId
-$propIdInput = Read-Host "\nEnter property_id (press Enter to use default $defaultPropId)"
-$propId = if ([string]::IsNullOrWhiteSpace($propIdInput)) { $defaultPropId } else { $propIdInput.Trim() }
+if (-not $PropertyId) {
+    if ($NonInteractive) {
+        $PropertyId = $defaultPropId
+    } else {
+        $propIdInput = Read-Host "\nEnter property_id (press Enter to use default $defaultPropId)"
+        $PropertyId = if ([string]::IsNullOrWhiteSpace($propIdInput)) { $defaultPropId } else { $propIdInput.Trim() }
+    }
+}
 
-if (-not $propId) {
+if (-not $PropertyId) {
     Write-Host "No property_id selected. Exit." -ForegroundColor Red
     exit 1
 }
 
 # 3) Fetch detail
-$detailUrl = "$BaseUrl/api/properties/$propId"
+$detailUrl = "$BaseUrl/api/properties/$PropertyId"
 Write-Host "\n[2] Fetch detail: $detailUrl" -ForegroundColor Cyan
 try {
     $detail = Invoke-RestMethod -TimeoutSec 30 -Uri $detailUrl -Method GET
@@ -72,7 +83,7 @@ if ($detail -and $detail.propertyInfo) {
 }
 
 # 4) Fetch similar comps
-$similarUrl = "$BaseUrl/api/properties/$propId/similar?limit=5"
+$similarUrl = "$BaseUrl/api/properties/$PropertyId/similar?limit=5"
 Write-Host "\n[3] Similar homes (comps): $similarUrl" -ForegroundColor Cyan
 
 try {
@@ -90,9 +101,9 @@ if ($similar) {
 }
 
 # 5) Save artifacts for review
-$searchPath  = Join-Path -Path (Get-Location) -ChildPath ("search_" + $zip + ".json")
-$detailPath  = Join-Path -Path (Get-Location) -ChildPath ("detail_" + $propId + ".json")
-$similarPath = Join-Path -Path (Get-Location) -ChildPath ("similar_" + $propId + ".json")
+$searchPath  = Join-Path -Path (Get-Location) -ChildPath ("search_" + $Zip + ".json")
+$detailPath  = Join-Path -Path (Get-Location) -ChildPath ("detail_" + $PropertyId + ".json")
+$similarPath = Join-Path -Path (Get-Location) -ChildPath ("similar_" + $PropertyId + ".json")
 
 try { $search  | ConvertTo-Json -Depth 8 | Out-File -FilePath $searchPath  -Encoding UTF8 } catch {}
 try { $detail  | ConvertTo-Json -Depth 8 | Out-File -FilePath $detailPath  -Encoding UTF8 } catch {}

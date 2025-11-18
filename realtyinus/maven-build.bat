@@ -4,16 +4,30 @@ REM This script will download Maven if needed and run it
 
 setlocal
 
-REM Set JAVA_HOME if not set
+REM Set JAVA_HOME if not set (prefer LTS JDKs compatible with Spring Boot 3.x)
 if "%JAVA_HOME%" == "" (
-    set "JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-25.0.0.36-hotspot"
+    echo JAVA_HOME not set. Attempting to locate a compatible JDK (21 or 17)...
+    for /f "delims=" %%D in ('dir /b /ad "C:\Program Files\Eclipse Adoptium\jdk-21*" 2^>nul') do set "JAVA_HOME=C:\Program Files\Eclipse Adoptium\%%D"
+    if "%JAVA_HOME%" == "" (
+        for /f "delims=" %%D in ('dir /b /ad "C:\Program Files\Eclipse Adoptium\jdk-17*" 2^>nul') do set "JAVA_HOME=C:\Program Files\Eclipse Adoptium\%%D"
+    )
+    if "%JAVA_HOME%" == "" (
+        for /f "delims=" %%D in ('dir /b /ad "C:\Program Files\Java\jdk-21*" 2^>nul') do set "JAVA_HOME=C:\Program Files\Java\%%D"
+    )
+    if "%JAVA_HOME%" == "" (
+        for /f "delims=" %%D in ('dir /b /ad "C:\Program Files\Java\jdk-17*" 2^>nul') do set "JAVA_HOME=C:\Program Files\Java\%%D"
+    )
 )
 
 echo ========================================
 echo Maven Build Script for RealtyInUS
 echo ========================================
 echo.
-echo Java Home: %JAVA_HOME%
+if not "%JAVA_HOME%" == "" (
+    echo Java Home: %JAVA_HOME%
+) else (
+    echo Java Home: [not set - relying on system java in PATH]
+)
 echo.
 
 REM Check if Maven is installed

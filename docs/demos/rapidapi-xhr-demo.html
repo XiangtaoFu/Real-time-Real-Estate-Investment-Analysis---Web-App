@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>RapidAPI RealtyInUS XHR Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem; }
+    .row { margin-bottom: 1rem; }
+    label { display: inline-block; width: 180px; font-weight: 600; }
+    input[type=text], input[type=password], select { width: 320px; padding: 6px 8px; }
+    button { padding: 6px 12px; margin-right: 8px; }
+    pre { background: #0b1020; color: #e6edf3; padding: 12px; border-radius: 6px; overflow: auto; }
+    small.note { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>RapidAPI RealtyInUS XHR Demo</h1>
+  <p class="note">
+    This demo calls RapidAPI directly from the browser using XHR. For production, do NOT expose your RapidAPI Key in the browser. Prefer calling your own backend to proxy requests.
+  </p>
+
+  <div class="row">
+    <label>RapidAPI Host</label>
+    <input id="host" type="text" value="realty-in-us.p.rapidapi.com" />
+  </div>
+  <div class="row">
+    <label>RapidAPI Key</label>
+    <input id="key" type="password" placeholder="Paste your RapidAPI Key" />
+  </div>
+
+  <hr/>
+
+  <h2>Step 1: Search by ZIP (v3/list)</h2>
+  <div class="row">
+    <label>ZIP code</label>
+    <input id="zip" type="text" value="02171" />
+  </div>
+  <div class="row">
+    <label>Status</label>
+    <select id="status">
+      <option value="for_sale" selected>for_sale</option>
+      <option value="for_rent">for_rent</option>
+      <option value="sold">sold</option>
+    </select>
+  </div>
+  <div class="row">
+    <label>Limit</label>
+    <input id="limit" type="text" value="5" />
+  </div>
+  <div class="row">
+    <button id="btnSearch">Search (POST /properties/v3/list)</button>
+  </div>
+
+  <pre id="outList">Search output will appear here...</pre>
+
+  <div id="listResults" style="margin: 0.5rem 0 1rem 0;"></div>
+
+  <h2>Step 2: Pick a property_id</h2>
+  <div class="row">
+    <label>property_id</label>
+    <input id="propertyId" type="text" placeholder="Fill or auto-filled after search" />
+  </div>
+
+  <h2>Step 3: Fetch detail and similar homes</h2>
+  <div class="row">
+    <button id="btnDetail">Detail (GET /properties/v3/detail)</button>
+    <button id="btnSimilar">Similar (GET /properties/v3/list-similar-homes)</button>
+  </div>
+
+  <pre id="outDetail">Detail output will appear here...</pre>
+  <pre id="outSimilar">Similar output will appear here...</pre>
+
+  <script>
+    function xhrRequest(method, url, headers={}, body=null) {
+      return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        Object.keys(headers).forEach(function(h){ xhr.setRequestHeader(h, headers[h]); });
+        xhr.onreadystatechange = function(){
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try { resolve(JSON.parse(xhr.responseText)); }
+              catch(e) { resolve(xhr.responseText); }
+            } else {
+              reject(new Error("HTTP " + xhr.status + ": " + xhr.responseText));
+            }
+          }
+        };
+        xhr.send(body);
+      });
+    }
+
+    function getHeaders() {
+      var host = document.getElementById('host').value.trim();
+      var key = document.getElementById('key').value.trim();
+      if (!key) { alert('Please enter RapidAPI Key'); throw new Error('Missing key'); }
+      return {
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': key,
+        'X-RapidAPI-Host': host
+      };
+    }
+
+    function pretty(el, data) {
+      el.textContent = (typeof data === 'string') ? data : JSON.stringify(data, null, 2);
+    }
+
+    function money(n){
+      if (n === null || n === undefined) return '';
+      try { return Number(n).toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }); } catch(e){ return n; }
+    }
+
+    function renderResults(results) {
+      var host = document.getElementById('host').value.trim();
+      var c = document.getElementById('listResults');
+      if (!Array.isArray(results) || results.length === 0) {
+        c.innerHTML = '<small class="note">No results.</small>';
+        return;
+      }
+      var html = '<div style="border:1px solid #e1e4ea;padding:8px;border-radius:6px">';
+      results.slice(0, 10).forEach(function(r, idx){
+        var pid = r.property_id || r.propertyId || '';
+        var addr = (r.location && r.location.address && r.location.address.line ? r.location.address.line : '')
+                 + (r.location && r.location.address && r.location.address.city ? (', ' + r.location.address.city) : '')
+                 + (r.location && r.location.address && r.location.address.state_code ? (', ' + r.location.address.state_code) : '')
+                 + (r.location && r.location.address && r.location.address.postal_code ? (' ' + r.location.address.postal_code) : '');
+        var price = (r.list_price || r.price || r.listPrice);
+        html += '<div style="padding:6px 4px;border-bottom:1px solid #f0f2f5">'
+             +  '<div style="font-weight:600">' + (addr || '(no address)') + '</div>'
+             +  '<div style="color:#555">Price: ' + (money(price) || 'N/A') + '</div>'
+             +  '<div>property_id: <code>' + pid + '</code> '
+             +  '<button style="margin-left:8px" onclick="document.getElementById(\'propertyId\').value=\'' + pid + '\'">Use this</button>'
+             +  '<a style="margin-left:8px" href="https://' + host + '/properties/v3/detail?property_id=' + encodeURIComponent(pid) + '" target="_blank">Detail API</a>'
+             +  '</div>'
+             +  '</div>';
+      });
+      html += '</div>';
+      c.innerHTML = html;
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', async function(){
+      try {
+        var host = document.getElementById('host').value.trim();
+        var headers = getHeaders();
+        var zip = document.getElementById('zip').value.trim();
+        var status = document.getElementById('status').value;
+        var limit = parseInt(document.getElementById('limit').value || '5', 10);
+
+        var url = 'https://' + host + '/properties/v3/list';
+        var payload = JSON.stringify({
+          postal_code: zip,
+          status: status,
+          limit: limit,
+          sort: { direction: 'desc', field: 'list_date' }
+        });
+
+        var data = await xhrRequest('POST', url, headers, payload);
+        pretty(document.getElementById('outList'), data);
+
+        // Render clickable results and try to auto-fill first property_id
+        try {
+          var results = (((data||{}).data||{}).home_search||{}).results || [];
+          renderResults(results);
+          if (results.length > 0) {
+            var pid = results[0].property_id || results[0].propertyId;
+            if (pid) document.getElementById('propertyId').value = pid;
+          }
+        } catch(e) { renderResults([]); }
+      } catch(err) {
+        pretty(document.getElementById('outList'), String(err));
+        renderResults([]);
+      }
+    });
+
+    document.getElementById('btnDetail').addEventListener('click', async function(){
+      try {
+        var host = document.getElementById('host').value.trim();
+        var headers = getHeaders();
+        var pid = document.getElementById('propertyId').value.trim();
+        if (!pid) { alert('Please set property_id first'); return; }
+        var url = 'https://' + host + '/properties/v3/detail?property_id=' + encodeURIComponent(pid);
+        var data = await xhrRequest('GET', url, headers);
+        pretty(document.getElementById('outDetail'), data);
+      } catch(err) {
+        pretty(document.getElementById('outDetail'), String(err));
+      }
+    });
+
+    document.getElementById('btnSimilar').addEventListener('click', async function(){
+      try {
+        var host = document.getElementById('host').value.trim();
+        var headers = getHeaders();
+        var pid = document.getElementById('propertyId').value.trim();
+        if (!pid) { alert('Please set property_id first'); return; }
+        var url = 'https://' + host + '/properties/v3/list-similar-homes?property_id=' + encodeURIComponent(pid) + '&limit=10&status=for_sale';
+        var data = await xhrRequest('GET', url, headers);
+        pretty(document.getElementById('outSimilar'), data);
+      } catch(err) {
+        pretty(document.getElementById('outSimilar'), String(err));
+      }
+    });
+  </script>
+</body>
+</html>
