@@ -80,6 +80,12 @@ cd C:\Users\14215\Desktop\Real-Time-Real-Estate-Investment-Analysis--Web-App\Rea
 ./scripts/start-realtyinus.bat
 ```
 
+macOS/Linux:
+```bash
+chmod +x ./scripts/start-realtyinus.sh
+./scripts/start-realtyinus.sh
+```
+
 **Option 2: Manual start**
 ```bash
 cd realtyinus
