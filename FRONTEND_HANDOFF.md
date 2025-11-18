@@ -1,4 +1,4 @@
-# Frontend Integration Guide (English)
+# Frontend Integration Guide 
 
 Base URL: http://localhost:8081
 
